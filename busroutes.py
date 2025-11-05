@@ -2,7 +2,7 @@ from RPLCD.gpio import CharLCD
 from RPi import GPIO
 import requests
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Initialize LCD
 lcd = CharLCD(
@@ -54,12 +54,11 @@ def get_bus_data():
         for call in data['data']['stopPlace']['estimatedCalls']:
             # Parse arrival time
             arrival_time = datetime.fromisoformat(call['expectedArrivalTime'].replace('Z', '+00:00'))
-            time_str = arrival_time.strftime('%H:%M')
             
             bus_lines.append({
                 'line': call['serviceJourney']['journeyPattern']['line']['name'],
                 'destination': call['destinationDisplay']['frontText'],
-                'time': time_str,
+                'arrival_time': arrival_time,
                 'realtime': call['realtime']
             })
         
@@ -69,35 +68,57 @@ def get_bus_data():
         print(f"Error fetching data: {e}")
         return []
 
+def get_minutes_until(arrival_time):
+    """Calculate minutes until arrival"""
+    now = datetime.now(arrival_time.tzinfo)
+    diff = arrival_time - now
+    minutes = int(diff.total_seconds() / 60)
+    return max(0, minutes)  # Don't show negative numbers
+
 def display_bus_info():
+    last_fetch = None
+    buses = []
+    
     try:
         while True:
-            buses = get_bus_data()
+            # Fetch new data every 30 seconds
+            if last_fetch is None or (time.time() - last_fetch) > 30:
+                buses = get_bus_data()
+                last_fetch = time.time()
             
-            if buses:
-                for bus in buses[:3]:  # Show first 3 buses
-                    lcd.clear()
-                    
-                    # First row: Line number and destination (truncated to 16 chars)
-                    line1 = f"{bus['line']} {bus['destination']}"[:16]
-                    lcd.write_string(line1)
-                    
-                    # Second row: Time and realtime indicator
-                    lcd.cursor_pos = (1, 0)
-                    realtime_indicator = "RT" if bus['realtime'] else "  "
-                    line2 = f"{bus['time']} {realtime_indicator}"
-                    lcd.write_string(line2)
-                    
-                    time.sleep(5)  # Show each bus for 5 seconds
+            if buses and len(buses) >= 1:
+                # Get current time
+                now = datetime.now()
+                current_time = now.strftime('%H:%M')
+                
+                # Next bus
+                next_bus = buses[0]
+                minutes_until_next = get_minutes_until(next_bus['arrival_time'])
+                
+                # Line 1: Line number, current time, minutes until next bus
+                line1 = f"{next_bus['line']} {current_time} {minutes_until_next}min"[:16]
+                
+                # Line 2: Time until second bus (if available)
+                if len(buses) >= 2:
+                    second_bus = buses[1]
+                    minutes_until_second = get_minutes_until(second_bus['arrival_time'])
+                    line2 = f"Next: {minutes_until_second}min"[:16]
+                else:
+                    line2 = "Next: N/A"
+                
+                lcd.clear()
+                lcd.write_string(line1)
+                lcd.cursor_pos = (1, 0)
+                lcd.write_string(line2)
+                
             else:
                 lcd.clear()
                 lcd.write_string('No departures')
                 lcd.cursor_pos = (1, 0)
                 lcd.write_string('available')
-                time.sleep(10)
             
-            # Wait before refreshing data
-            time.sleep(30)
+            # Update display every second to keep time current
+            time.sleep(1)
     
     except KeyboardInterrupt:
         pass
