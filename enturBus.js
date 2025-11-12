@@ -61,30 +61,31 @@ function showDepartures() {
   const sentrum = ["Kværnerbyen", "Ekeberg hageby"]
   const otherWay = ["Kjelsås stasjon", "Tåsen"]
 
+  const calls = departuresData.data.stopPlace.estimatedCalls
+
   const containerOtherWay = document.getElementById("departuresOtherWay");
   const containerSentrum = document.getElementById("departuresSentrum")
-  const calls = departuresData.data.stopPlace.estimatedCalls
 
   containerOtherWay.innerHTML = "";
   containerSentrum.innerHTML = "";
 
-  // Splitting data into directions
+  //ts pmo
   for (let call of calls) {
     frontText = call.destinationDisplay.frontText
     if (sentrum.includes(frontText)) {
       sentrumDepartures.push(call)
-    } else {
+    } else if (otherWay.includes(frontText)){
       otherWayDepartures.push(call)
-      console.log("pushed", frontText, "to otherWayDepartures")
     }
   }
 
   for (let sentrumDeparture of sentrumDepartures) {
     let sentrumFrontText = sentrumDeparture.destinationDisplay.frontText
+    let sentrumLineId = sentrumDeparture.serviceJourney.journeyPattern.line.id.split(":").pop()
     let sentrumExpectedArrival = new Date(sentrumDeparture.expectedArrivalTime)
     let now = new Date()
     let sentrumTimeDiff = Math.floor((sentrumExpectedArrival - now ) / 1000 / 60)
-    let sentrumLineId = sentrumDeparture.serviceJourney.journeyPattern.line.id.split(":").pop()
+
     const sentrumDiv = document.createElement("div");
     sentrumDiv.classList.add("departures");
     sentrumDiv.innerHTML = `
@@ -92,8 +93,8 @@ function showDepartures() {
       <span class="time">${sentrumTimeDiff <= 0 ? "nå" : sentrumTimeDiff + " min"}</span>
     `;
     containerSentrum.appendChild(sentrumDiv);
-
   }
+
   for (let otherWayDeparture of otherWayDepartures) {
     let otherWayFrontText = otherWayDeparture.destinationDisplay.frontText
     let otherWaylineId = otherWayDeparture.serviceJourney.journeyPattern.line.id.split(":").pop()
@@ -101,7 +102,6 @@ function showDepartures() {
     now = new Date()
     let otherWayTimeDiff = Math.floor((otherWayExpectedArrival - now) / 1000 / 60 )
 
-    console.log(otherWaylineId)
     const otherWayDiv = document.createElement("div");
     otherWayDiv.classList.add("departures");
     otherWayDiv.innerHTML = `
