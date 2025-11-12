@@ -2,16 +2,181 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1080, initial-scale=1.0">
     <title>Infoskjerm</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        /* Setup Ruter theme colors */
+        :root {
+            --ruter-red: #E60000;
+            --ruter-grey: #F5F5F5;
+            --ruter-dark: #232323;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            background: var(--ruter-grey);
+            font-family: 'Roboto', Arial, sans-serif;
+            color: var(--ruter-dark);
+            overflow-x: hidden;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            background: var(--ruter-red);
+            color: white;
+            width: 100vw;
+            text-align: center;
+            font-size: 4.4rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            padding: 36px 0 24px 0;
+            margin-bottom: 18px;
+            box-shadow: 0 7px 18px rgba(0,0,0,0.10);
+        }
+        .container {
+            width: 97vw;
+            max-width: 1020px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .update-btn {
+            background: var(--ruter-red);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 2rem;
+            padding: 20px 52px;
+            margin: 12px 0 26px 0;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.098);
+            transition: background 0.18s;
+        }
+        .update-btn:hover {
+            background: #b80000;
+        }
+        h2 {
+            font-size: 3rem;
+            margin: 0 0 28px 0;
+            font-weight: 800;
+            text-align: center;
+            color: var(--ruter-red);
+        }
+        #departures {
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 26px 0 rgba(0,0,0,0.13);
+            font-size: 1.45rem;
+            margin-bottom: 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 40px 60px 40px 60px;
+            min-height: 700px;
+        }
+
+        .departures-row {
+            width: 100%;
+            margin-bottom: 38px;
+        }
+        .departures-row:last-child {
+            margin-bottom: 0;
+        }
+        .direction-header {
+            text-align: left;
+            font-size: 2.15rem;
+            color: var(--ruter-red);
+            border-left: 10px solid var(--ruter-red);
+            padding: 4px 0 8px 20px;
+            margin-bottom: 26px;
+            background: var(--ruter-grey);
+            border-radius: 8px;
+        }
+        .departures-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .departure {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 56px;
+            padding: 14px 0;
+            font-size: 2.1rem;
+            border-bottom: 2px solid #eee;
+        }
+        .departure:last-child {
+            border-bottom: none;
+        }
+        .bus-line {
+            color: var(--ruter-red);
+            font-weight: 900;
+            font-size: 2.3rem;
+            min-width: 65px;
+            text-align: right;
+        }
+        .bus-direction {
+            font-weight: 700;
+            font-size: 2.1rem;
+            min-width: 270px;
+            text-align: left;
+            padding-left: 10px;
+        }
+        .bus-time {
+            font-weight: 700;
+            min-width: 90px;
+            text-align: left;
+            font-size: 2.1rem;
+        }
+        .empty-message {
+            color: var(--ruter-dark);
+            font-size: 1.7rem;
+            font-style: italic;
+            padding-left: 8px;
+        }
+        @media (max-width: 900px) {
+            header {
+                font-size: 2.2rem;
+                padding: 17px 0 9px 0;
+            }
+            h2 {
+                font-size: 1.45rem;
+                margin-bottom: 18px;
+            }
+            #departures {
+                padding: 12px 8px;
+                font-size: 1.1rem;
+                min-height: 400px;
+            }
+            .direction-header {
+                font-size: 1.1rem;
+                border-left-width: 6px;
+                padding-left: 10px;
+            }
+            .departure {
+                font-size: 1rem;
+                gap: 20px;
+            }
+            .bus-line { font-size: 1.2rem; min-width: 32px; }
+            .bus-direction, .bus-time { font-size: 1rem; min-width: 70px; }
+        }
+    </style>
 </head>
 <body>
-    
-
-    <button onclick="showDepartures()">Force Update</button>
-      <h2>Jakob Kirke</h2>
-     <div id="departures">Loading...</div>
-
+    <header>Ruter</header>
+    <div class="container">
+        <h2>Jakob Kirke</h2>
+        <div id="departures">Laster...</div>
+    </div>
     <script src="enturBus.js"></script>
 </body>
 </html>
