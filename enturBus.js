@@ -69,7 +69,6 @@ function showDepartures() {
   containerOtherWay.innerHTML = "";
   containerSentrum.innerHTML = "";
 
-  //ts pmo
   for (let call of calls) {
     frontText = call.destinationDisplay.frontText
     if (sentrum.includes(frontText)) {
@@ -86,11 +85,12 @@ function showDepartures() {
     let now = new Date()
     let sentrumTimeDiff = Math.floor((sentrumExpectedArrival - now ) / 1000 / 60)
 
+
     const sentrumDiv = document.createElement("div");
     sentrumDiv.classList.add("departures");
     sentrumDiv.innerHTML = `
       <span class="sentrumLine">${sentrumLineId} ${sentrumFrontText}</span>
-      <span class="time">${sentrumTimeDiff <= 0 ? "nå" : sentrumTimeDiff + " min"}</span>
+      <span class="sentrumTime">${sentrumTimeDiff <= 0 ? "nå" : sentrumTimeDiff + " min"}</span>
     `;
     containerSentrum.appendChild(sentrumDiv);
   }
@@ -106,7 +106,7 @@ function showDepartures() {
     otherWayDiv.classList.add("departures");
     otherWayDiv.innerHTML = `
       <span class="otherWayLine">${otherWaylineId} ${otherWayFrontText}</span>
-      <span class="time">${otherWayTimeDiff <= 0 ? "nå" : otherWayTimeDiff + " min" }</span>
+      <span class="otherWayTime">${otherWayTimeDiff <= 0 ? "nå" : otherWayTimeDiff + " min" }</span>
     `;
     containerOtherWay.appendChild(otherWayDiv)
   }
