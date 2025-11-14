@@ -36,82 +36,56 @@ async function fetchDepartures() {
       }),
     });
 
-    if (!response.ok) {
-      throw new Error(`Response ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`Response ${response.status}`);
 
     departuresData = await response.json();
-    showDepartures()
-    // console.dir(departuresData.data.stopPlace, { depth: null });
+    showDepartures();
   } catch (error) {
     console.error("Fetch error:", error.message);
   }
 }
 
+function formatDepartureTime(expectedArrival) {
+  const now = new Date();
+  const timeDiff = Math.floor((expectedArrival - now) / 1000 / 60);
 
+  if (timeDiff <= 0) return "nå";
+  if (timeDiff <= 15) return timeDiff + " min";
 
-setInterval(fetchDepartures, 30000);
-fetchDepartures()
+  return expectedArrival.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
 
 function showDepartures() {
+  const sentrum = ["Kværnerbyen", "Ekeberg hageby"];
+  const otherWay = ["Kjelsås stasjon", "Tåsen"];
 
-  let sentrumDepartures = []
-  let otherWayDepartures = []
-
-  const sentrum = ["Kværnerbyen", "Ekeberg hageby"]
-  const otherWay = ["Kjelsås stasjon", "Tåsen"]
-
-  const calls = departuresData.data.stopPlace.estimatedCalls
-
+  const calls = departuresData.data?.stopPlace?.estimatedCalls || [];
+  const containerSentrum = document.getElementById("departuresSentrum");
   const containerOtherWay = document.getElementById("departuresOtherWay");
-  const containerSentrum = document.getElementById("departuresSentrum")
 
-  containerOtherWay.innerHTML = "";
   containerSentrum.innerHTML = "";
+  containerOtherWay.innerHTML = "";
 
   for (let call of calls) {
-    frontText = call.destinationDisplay.frontText
-    if (sentrum.includes(frontText)) {
-      sentrumDepartures.push(call)
-    } else if (otherWay.includes(frontText)){
-      otherWayDepartures.push(call)
-    }
-  }
+    const frontText = call.destinationDisplay.frontText;
+    const lineId = call.serviceJourney.journeyPattern.line.id.split(":").pop();
+    const expectedArrival = new Date(call.expectedArrivalTime);
 
-  for (let sentrumDeparture of sentrumDepartures) {
-    let sentrumFrontText = sentrumDeparture.destinationDisplay.frontText
-    let sentrumLineId = sentrumDeparture.serviceJourney.journeyPattern.line.id.split(":").pop()
-    let sentrumExpectedArrival = new Date(sentrumDeparture.expectedArrivalTime)
-    let now = new Date()
-    let sentrumTimeDiff = Math.floor((sentrumExpectedArrival - now ) / 1000 / 60)
-
-
-    const sentrumDiv = document.createElement("div");
-    sentrumDiv.classList.add("departures");
-    sentrumDiv.innerHTML = `
-      <span class="sentrumLine">${sentrumLineId} ${sentrumFrontText}</span>
-      <span class="sentrumTime">${sentrumTimeDiff <= 0 ? "nå" : sentrumTimeDiff + " min"}</span>
+    const div = document.createElement("div");
+    div.classList.add("departures");
+    div.innerHTML = `
+      <div class="lineBox">
+        <span class="lineNumber">${lineId}</span>
+        <span class="lineName">${frontText}</span>
+      </div>
+      <span class="departureTime">${formatDepartureTime(expectedArrival)}</span>
     `;
-    containerSentrum.appendChild(sentrumDiv);
-  }
 
-  for (let otherWayDeparture of otherWayDepartures) {
-    let otherWayFrontText = otherWayDeparture.destinationDisplay.frontText
-    let otherWaylineId = otherWayDeparture.serviceJourney.journeyPattern.line.id.split(":").pop()
-    let otherWayExpectedArrival = new Date(otherWayDeparture.expectedArrivalTime)
-    now = new Date()
-    let otherWayTimeDiff = Math.floor((otherWayExpectedArrival - now) / 1000 / 60 )
-
-    const otherWayDiv = document.createElement("div");
-    otherWayDiv.classList.add("departures");
-    otherWayDiv.innerHTML = `
-      <span class="otherWayLine">${otherWaylineId} ${otherWayFrontText}</span>
-      <span class="otherWayTime">${otherWayTimeDiff <= 0 ? "nå" : otherWayTimeDiff + " min" }</span>
-    `;
-    containerOtherWay.appendChild(otherWayDiv)
+    if (sentrum.includes(frontText)) containerSentrum.appendChild(div);
+    else if (otherWay.includes(frontText)) containerOtherWay.appendChild(div);
   }
 }
 
+setInterval(fetchDepartures, 30000);
+fetchDepartures();
 setInterval(showDepartures, 9000);
-
-
