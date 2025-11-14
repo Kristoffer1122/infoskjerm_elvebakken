@@ -49,7 +49,7 @@ function formatDepartureTime(expectedArrival) {
   const now = new Date();
   const timeDiff = Math.floor((expectedArrival - now) / 1000 / 60);
 
-  if (timeDiff <= 0) return "nå";
+  if (timeDiff <= 0) return "Nå";
   if (timeDiff <= 15) return timeDiff + " min";
 
   return expectedArrival.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
