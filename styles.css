@@ -1,28 +1,53 @@
-/* Styles for Ruter design */
-body {
-    background-color: #FFFFFF; /* White background */
-    margin: 0;
-    padding: 0;
-    width: 3840px; /* Width for 4K */
-    height: 2160px; /* Height for 4K */
+.container {
+    width: 2160px;
+    height: 3840px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.header {
+    width: 100%;
+    background: linear-gradient(to right, #d6001c, #ff5e3a);
+    padding: 20px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 48px;
+    color: white;
 }
 
 .card {
-    background-color: #FFFFFF; /* White cards */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Shadows */
-    width: 300px; /* Example fixed width */
-    height: 200px; /* Example fixed height */
-    margin: 20px; /* Spacing for fixed layout */
+    width: 80%;
+    height: 200px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
 }
 
-h1 {
-    color: #d6001c; /* Red color */
-    font-size: 42px; /* Original size scaled down by 30% */
-    margin: 10px; /* Fixed margin */
+.card .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #d6001c;
 }
 
-/* Additional styles */
-p {
-    color: #000000; /* Black text */
-    font-size: 21px; /* Original size scaled down by 30% */
+.card .content {
+    font-size: 18px;
+    color: #4CAF50; /* Green for real-time colors */
+}
+
+.footer {
+    width: 100%;
+    background-color: #d6001c;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    color: white;
 }
