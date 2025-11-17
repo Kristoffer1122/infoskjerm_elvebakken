@@ -25,10 +25,10 @@ body {
                  Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background: var(--background-color);
   color: var(--text-color);
-  padding: 1.2vh 1.5vw;
+  padding: 2vh 3vw;
   box-sizing: border-box;
-  /* Fixed rotation positioning */
-  transform: rotate(-90deg) translateX(-100%);
+  /* Rotate 90 degrees for portrait 4K TV display */
+  transform: rotate(90deg) translateY(-100%);
   transform-origin: top left;
   width: 100vh;
   height: 100vw;
@@ -42,42 +42,42 @@ body {
 }
 
 h2 {
-  font-size: clamp(24px, 4vh, 48px);
+  font-size: clamp(48px, 6vh, 80px);
   font-weight: 900;
-  margin: 0 0 0.8vh;
+  margin: 0 0 1.5vh;
   color: var(--text-color);
   position: relative;
-  padding-bottom: 0.5vh;
+  padding-bottom: 1vh;
   flex-shrink: 0;
 }
 
 h2::after {
   content: "";
   display: block;
-  width: 60px;
-  height: 4px;
+  width: 100px;
+  height: 6px;
   background-color: var(--primary-color);
-  margin-top: 0.3vh;
-  border-radius: 2px;
+  margin-top: 0.5vh;
+  border-radius: 3px;
 }
 
 h3 {
-  font-size: clamp(18px, 2.5vh, 28px);
+  font-size: clamp(32px, 4vh, 56px);
   font-weight: 700;
-  margin: 0.5vh 0 0.5vh;
+  margin: 1.5vh 0 1vh;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   flex-shrink: 0;
 }
 
 h3::before {
   content: "";
   display: block;
-  width: 6px;
+  width: 8px;
   height: 100%;
   background-color: var(--primary-color);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 #departuresSentrum,
@@ -87,12 +87,12 @@ h3::before {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 0.8vh;
+  gap: 1.5vh;
 }
 
 .departures {
   background: var(--departure-bg);
-  padding: 1.2vh 1.5vw;
+  padding: 2vh 2.5vw;
   border-radius: var(--box-radius);
   box-shadow: var(--box-shadow);
   display: flex;
@@ -110,50 +110,50 @@ h3::before {
 .lineBox {
   display: flex;
   align-items: center;
-  gap: 1vw;
+  gap: 2vw;
 }
 
 .lineNumber {
   background-color: var(--primary-color);
   color: #ffffff;
   font-weight: 700;
-  font-size: clamp(18px, 2.2vh, 24px);
+  font-size: clamp(32px, 4vh, 48px);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(40px, 5vh, 56px);
-  height: clamp(40px, 5vh, 56px);
-  border-radius: 8px;
+  width: clamp(72px, 8vh, 96px);
+  height: clamp(72px, 8vh, 96px);
+  border-radius: 12px;
   flex-shrink: 0;
 }
 
 .lineName {
   font-family: var(--font-lineName);
-  font-size: clamp(16px, 1.8vh, 20px);
+  font-size: clamp(28px, 3.5vh, 40px);
   font-weight: 600;
 }
 
 .departureTime {
-  font-size: clamp(16px, 1.8vh, 20px);
+  font-size: clamp(28px, 3.5vh, 40px);
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
 }
 
 .realtimeDot {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   background: var(--realtime-color);
   border-radius: 50%;
   display: inline-block;
 }
 
 @media (max-width: 480px) {
-  body { padding: 1vh; }
-  h2 { font-size: 24px; }
-  h3 { font-size: 18px; }
-  .lineNumber { width: 40px; height: 40px; font-size: 18px; }
-  .lineName { font-size: 16px; }
-  .departureTime { font-size: 16px; }
+  body { padding: 2vh 3vw; }
+  h2 { font-size: 48px; }
+  h3 { font-size: 32px; }
+  .lineNumber { width: 72px; height: 72px; font-size: 32px; }
+  .lineName { font-size: 28px; }
+  .departureTime { font-size: 28px; }
 }
