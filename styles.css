@@ -27,7 +27,7 @@ padding: 20px;
 box-sizing: border-box;
 
 /* Fixed rotation positioning */
-transform: rotate(90deg) translateX(100%);
+transform: rotate(90deg);
 transform-origin: top left;
 width: 100vh;
 height: auto;
