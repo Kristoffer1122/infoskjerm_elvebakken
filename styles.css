@@ -1,23 +1,50 @@
-.lineNumber {
-  font-size: 35px;
+.kiosk {
+  padding: 30px;
+  gap: 40px;
 }
-.lineName {
-  font-size: 27px;
-}
-.departureTime {
-  font-size: 35px;
-}
+
 h2 {
   font-size: 52px;
 }
+
 h3 {
   font-size: 31px;
 }
-body {
-  padding: 30px;
+
+.line-number {
+  font-size: 35px;
 }
-/* Removed animations and transitions for a static display */
-/* Removed animation: slideIn */
-/* Removed animation: pulse */
-/* Removed transitions and hover effects */
-/* Removed transform properties */
+
+.destination-name {
+  font-size: 27px;
+}
+
+.departure-time {
+  font-size: 35px;
+}
+
+.loading-text {
+  font-size: 24px;
+}
+
+.card {
+  height: 70px;
+}
+
+/* Removed animations and transitions */
+
+@keyframes slideIn {
+  /* Animation code removed */
+}
+
+@keyframes pulse {
+  /* Animation code removed */
+}
+
+.hover-effect {
+  /* Hover effect removed */
+}
+
+.transition {
+  /* Transition properties removed */
+}
